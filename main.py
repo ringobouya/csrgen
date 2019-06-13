@@ -63,8 +63,6 @@ def gencsr(name, subj):
 
 def main():
     args = sys.argv
-    name = ""
-    subj = ""
     if len(args) >= 2:
         name, subj = shaping(args[1])
     else:
