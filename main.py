@@ -61,17 +61,18 @@ def csrgen(name, subj):
             print(row, end="")
 
 
-def main():
-    args = sys.argv
-    if len(args) >= 2:
-        name, subj = shaping(args[1])
-    else:
-        # Example mode
-        name, subj = shaping("CN=www.example.com, OU=Example Unit, O=Example Company, ST=Tokyo, C=JP")
+def main(subject):
+    name, subj = shaping(subjcet)
     keygen(name, subj)
     csrgen(name, subj)
 
 
 if __name__ == "__main__":
-    main()
+    args = sys.argv
+    if len(args) >= 2:
+        subject = args[1]
+    else:
+        # Example mode
+        subject = "CN=www.example.com, OU=Example Unit, O=Example Company, ST=Tokyo, C=JP"
+    main(subject)
 
