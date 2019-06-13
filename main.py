@@ -62,7 +62,7 @@ def csrgen(name, subj):
 
 
 def main(subject):
-    name, subj = shaping(subjcet)
+    name, subj = shaping(subject)
     keygen(name, subj)
     csrgen(name, subj)
 
