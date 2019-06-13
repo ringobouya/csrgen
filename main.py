@@ -36,22 +36,22 @@ def shaping(subj):
     return name, subj
 
 
-def genkey(name, subj):
+def keygen(name, subj):
     # create random data.
     with open('./rand.dat', mode='w') as f:
         f.write(randomname(PK_SEED))
     # DES3
-    #genkeycmd = "openssl genrsa -out server.key -rand ./rand.dat -des3 %d" % (PK_BITS)
+    #keygencmd = "openssl genrsa -out server.key -rand ./rand.dat -des3 %d" % (PK_BITS)
     # NOENCRYPT
-    genkeycmd = "openssl genrsa -out %s.key -rand ./rand.dat %d" % (name, PK_BITS)
-    subprocess.call(genkeycmd, shell=True)
+    keygencmd = "openssl genrsa -out %s.key -rand ./rand.dat %d" % (name, PK_BITS)
+    subprocess.call(keygencmd, shell=True)
     # print
     with open(name + '.key', 'r') as f:
         for row in f:
             print(row, end="")
 
 
-def gencsr(name, subj):
+def csrgen(name, subj):
     req_cmd='openssl req -new -sha256 -key %s.key -out %s.csr '\
             '-subj \'%s\'' % (name, name, subj)
     subprocess.call(req_cmd, shell=True)
@@ -68,8 +68,8 @@ def main():
     else:
         # Example mode
         name, subj = shaping("CN=www.example.com, OU=Example Unit, O=Example Company, ST=Tokyo, C=JP")
-    genkey(name, subj)
-    gencsr(name, subj)
+    keygen(name, subj)
+    csrgen(name, subj)
 
 
 if __name__ == "__main__":
