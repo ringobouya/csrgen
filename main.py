@@ -23,7 +23,9 @@ PK_SEED = 10000
 
 
 def randomname(n):
-    randlst = [random.choice(string.ascii_letters + string.digits) for i in range(n)]
+    randlst = [
+        random.choice(string.ascii_letters + string.digits) for i in range(n)
+        ]
     return ''.join(randlst)
 
 
@@ -52,9 +54,10 @@ def keygen(name, subj, logger=None):
     with open(randfile, mode='w') as f:
         f.write(randomname(PK_SEED))
     # DES3
-    # keygencmd = "openssl genrsa -out server.key -rand ./rand.dat -des3 %d" % (PK_BITS)
+    # "openssl genrsa -out %s.key -rand ./rand.dat -des3 %d" % (PK_BITS)
     # NOENCRYPT
-    keygencmd = "openssl genrsa -out %s.key -rand ./rand.dat %d" % (name, PK_BITS)
+    keygencmd = "openssl genrsa -out %s.key -rand ./rand.dat %d" \
+                % (name, PK_BITS)
     subprocess.call(keygencmd, shell=True)
     # print
     with open(name + '.key', 'r') as f:
@@ -83,7 +86,9 @@ if __name__ == "__main__":
     logger.setLevel(MY_LOG_LEVEL)
     stream_handler = StreamHandler()
     stream_handler.setLevel(MY_LOG_LEVEL)
-    handler_format = Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    handler_format = Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        )
     stream_handler.setFormatter(handler_format)
     logger.addHandler(stream_handler)
 
@@ -91,10 +96,17 @@ if __name__ == "__main__":
     if len(args) >= 2:
         subject = args[1]
     else:
+        # Keywords:
+        # emailAddress=hoge@example.com
+        # CN=www.example.com
+        # OU=Example Unit
+        # O=Example Company
+        # ST=Tokyo
+        # C=JP
+
         # Example mode
-        # subject = "emailAddress=hoge@example.com, CN=www.example.com, OU=Example Unit, O=Example Company, ST=Tokyo, C=JP"
-        # subject = "CN=www.example.com, OU=Example Unit, O=Example Company, ST=Tokyo, C=JP, emailAddress=text@example.com"
-        subject = "CN=www.example.com, OU=Example Unit, O=Example Company, ST=Tokyo, C=JP"
+        subject = "CN=www.example.com, OU=Example Unit, " \
+                    "O=Example Company, ST=Tokyo, C=JP"
 
         logger.info("@@@@ Demo mode @@@@")
         logger.info("python main.py + \"" + subject + "\"")
